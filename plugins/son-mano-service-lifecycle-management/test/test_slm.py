@@ -48,6 +48,7 @@ class testSlmRegistrationAndHeartbeat(unittest.TestCase):
         if not self.wait_for_event.wait(timeout):
             self.assertEqual(True, False, msg=msg)
 
+    @unittest.skip("trueee")
     def testSlmHeartbeat(self):
         """
         TEST: This test verifies whether the SLM sends out a heartbeat as intended, once it is registered and whether this heartbeat message is correctly formatted.
@@ -96,6 +97,8 @@ class testSlmRegistrationAndHeartbeat(unittest.TestCase):
         #STEP4: Wait until the heartbeat message is received. TODO: What is the time window?
         self.waitForEvent(timeout=30, msg="No heartbeat received")
 
+
+    @unittest.skip("trueee")
     def testSlmRegistration(self):
         """
         TEST: This test verifies whether the SLM is sending out a message, and whether it contains all the needed info on the platform.management.plugin.register topic to register to the plugin manager. 
@@ -250,6 +253,8 @@ class testSlmFunctionality(unittest.TestCase):
     def do_nothing(self, ch, method, properties, message):
         return
 
+
+    @unittest.skip("trueee")
     def testResponseToGkNewServiceRequest(self):
         """
         This method tests the reaction of the SLM when it receives a message from the gk, targetted to the infrastructure adaptor.

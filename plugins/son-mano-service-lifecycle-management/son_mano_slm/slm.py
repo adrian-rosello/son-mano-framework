@@ -188,10 +188,19 @@ class ServiceLifecycleManager(ManoBasePlugin):
             nsr_request = msg["nsr"];
             if ("id" not in nsr_request):
                 nsr_request["id"] = uuid.uuid4().hex
-            nsr_request["vnfr"] = msg["vnfr"]
 
+            vnfr_request = msg["vnfr"]
+
+            if ("vnfr" not in nsr_request):
+                nsr_request["vnfr"] = []
+                for vnfr in vnfr_request:
+                    nsr_request["vnfr"].append(vnfr["id"])
+
+            print(nsr_request)
+            print(vnfr_request)
             nsr_response = self.postNsrToRepository(json.dumps(nsr_request), {'Content-Type':'application/json'})
-            # TODO: handle response from repository
+            vnfr_response = self.postVnfrToRepository(json.dumps(vnfr_request), {'Content-Type':'application/json'})
+            # TODO: handle responses from repositories
             #Inform the GK
             #TODO: add correlation_id, build message for GK, add info on NSR, VNFRs
             self.manoconn.notify(GK_INSTANCE_CREATE_TOPIC, yaml.dump({'request_status':request_status}))
@@ -203,7 +212,9 @@ class ServiceLifecycleManager(ManoBasePlugin):
     def postNsrToRepository(self, nsr, headers):
         return requests.post(NSR_REPOSITORY_URL + 'ns-instances', data=nsr, headers=headers)
 
-        
+    def postVnfrToRepository(self, vnfr, headers):
+        return requests.post(NSR_REPOSITORY_URL + 'ns-instances', data=vnfr, headers=headers)
+
 
 def main():
     """

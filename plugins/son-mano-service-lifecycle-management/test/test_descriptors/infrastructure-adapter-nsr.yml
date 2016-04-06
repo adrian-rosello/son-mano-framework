@@ -1,4 +1,5 @@
 # YAML description of a sample Network Service Record (NSR)
+# returned by the Infrastructure Adaptor
 ---
 
 nsr:
